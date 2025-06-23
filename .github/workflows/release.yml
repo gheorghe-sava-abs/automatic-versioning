@@ -2,8 +2,8 @@ name: Create Release
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - release/current
 
 permissions:
   contents: write
@@ -30,9 +30,10 @@ jobs:
       - name: Build application
         run: npm run build
 
-      - name: Extract version from tag
+      - name: Generate from tag
         id: version
         run: |
+          npm run version:tag
           VERSION=${GITHUB_REF#refs/tags/v}
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "tag=$GITHUB_REF" >> $GITHUB_OUTPUT
