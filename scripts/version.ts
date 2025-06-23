@@ -202,7 +202,7 @@ const command = args[0];
 try {
   switch (command) {
     case 'current':
-      console.log(`Current version: ${versionManager.getCurrentVersion()}`);
+      console.log(versionManager.getCurrentVersion());
       break;
       
     case 'bump':
