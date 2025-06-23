@@ -54,6 +54,83 @@ class VersionManager {
     return { major, minor, patch };
   }
 
+  // Generate changelog entry
+  generateChangelogEntry(version: string, type: string): void {
+    const date = new Date().toISOString().split('T')[0];
+    
+    // Get commits since last tag
+    let commits: string[];
+    try {
+      const lastTag = execSync('git describe --tags --abbrev=0 HEAD~1', { encoding: 'utf8' }).trim();
+      const commitOutput = execSync(`git log --oneline --no-merges ${lastTag}..HEAD`, { encoding: 'utf8' });
+      commits = commitOutput.split('\n').filter(line => line.trim());
+    } catch (error) {
+      // No previous tag found, get all commits
+      const commitOutput = execSync('git log --oneline --no-merges', { encoding: 'utf8' });
+      commits = commitOutput.split('\n').filter(line => line.trim());
+    }
+    
+    // Categorize commits
+    const features = commits.filter(commit => 
+      commit.match(/(feat|feature):/i)
+    ).map(commit => `- ${commit}`);
+    
+    const bugFixes = commits.filter(commit => 
+      commit.match(/(fix|bugfix):/i)
+    ).map(commit => `- ${commit}`);
+    
+    const otherChanges = commits.filter(commit => 
+      !commit.match(/(feat|feature|fix|bugfix):/i)
+    ).map(commit => `- ${commit}`);
+    
+    // Build changelog entry
+    let entry = `\n## [${version}] - ${date}\n\n`;
+    entry += "### What's Changed\n\n";
+    
+    // Features section
+    entry += "#### Features\n";
+    if (features.length > 0) {
+      entry += features.join('\n') + '\n';
+    } else {
+      entry += "- No new features\n";
+    }
+    
+    // Bug fixes section
+    entry += "\n#### Bug Fixes\n";
+    if (bugFixes.length > 0) {
+      entry += bugFixes.join('\n') + '\n';
+    } else {
+      entry += "- No bug fixes\n";
+    }
+    
+    // Other changes section
+    entry += "\n#### Other Changes\n";
+    if (otherChanges.length > 0) {
+      entry += otherChanges.join('\n') + '\n';
+    } else {
+      entry += "- No other changes\n";
+    }
+    
+    entry += '\n';
+    
+    // Read existing changelog or create new one
+    let changelog: string;
+    if (fs.existsSync(this.changelogPath)) {
+      changelog = fs.readFileSync(this.changelogPath, 'utf8');
+    } else {
+      changelog = '# Changelog\n\nAll notable changes to this project will be documented in this file.\n\n';
+    }
+    
+    // Insert new entry after the header
+    const lines = changelog.split('\n');
+    const headerEndIndex = lines.findIndex(line => line.startsWith('## '));
+    const insertIndex = headerEndIndex > 0 ? headerEndIndex : lines.length;
+    
+    lines.splice(insertIndex, 0, entry);
+    fs.writeFileSync(this.changelogPath, lines.join('\n'));
+    console.log(`✅ Updated CHANGELOG.md with version ${version}`);
+  }
+
   // Get git commit messages since last tag
   getCommitMessages(): string[] {
     try {
@@ -111,6 +188,8 @@ class VersionManager {
     }
 
     this.updateVersion(newVersion);
+    this.generateChangelogEntry(newVersion, type);
+    this.createTag(newVersion);
     return newVersion;
   }
 
