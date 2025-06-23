@@ -54,29 +54,6 @@ class VersionManager {
     return { major, minor, patch };
   }
 
-  // Generate changelog entry
-  generateChangelogEntry(version: string, type: string): void {
-    const date = new Date().toISOString().split('T')[0];
-    const entry = `\n## [${version}] - ${date}\n\n### ${type}\n- Automated release\n\n`;
-    
-    // Read existing changelog or create new one
-    let changelog: string;
-    if (fs.existsSync(this.changelogPath)) {
-      changelog = fs.readFileSync(this.changelogPath, 'utf8');
-    } else {
-      changelog = '# Changelog\n\nAll notable changes to this project will be documented in this file.\n\n';
-    }
-    
-    // Insert new entry after the header
-    const lines = changelog.split('\n');
-    const headerEndIndex = lines.findIndex(line => line.startsWith('## '));
-    const insertIndex = headerEndIndex > 0 ? headerEndIndex : lines.length;
-    
-    lines.splice(insertIndex, 0, entry);
-    fs.writeFileSync(this.changelogPath, lines.join('\n'));
-    console.log(`✅ Updated CHANGELOG.md with version ${version}`);
-  }
-
   // Get git commit messages since last tag
   getCommitMessages(): string[] {
     try {
@@ -134,7 +111,6 @@ class VersionManager {
     }
 
     this.updateVersion(newVersion);
-    this.generateChangelogEntry(newVersion, type);
     return newVersion;
   }
 
