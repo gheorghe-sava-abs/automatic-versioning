@@ -1,0 +1,93 @@
+name: Version Bump
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: 'Version bump type'
+        required: true
+        default: 'auto'
+        type: choice
+        options:
+          - auto
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  version-bump:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event.inputs.bump_type != ''
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+      - name: Determine bump type
+        id: bump-type
+        run: |
+          if [ "${{ github.event.inputs.bump_type }}" = "auto" ] || [ "${{ github.event.inputs.bump_type }}" = "" ]; then
+            echo "bump_type=auto" >> $GITHUB_OUTPUT
+          else
+            echo "bump_type=${{ github.event.inputs.bump_type }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Bump version
+        id: version-bump
+        run: |
+          if [ "${{ steps.bump-type.outputs.bump_type }}" = "auto" ]; then
+            npm run version:auto-bump
+          else
+            npm run version:bump ${{ steps.bump-type.outputs.bump_type }}
+          fi
+          
+          NEW_VERSION=$(npm run version:current --silent)
+          echo "new_version=${NEW_VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: bump version to ${{ steps.version-bump.outputs.new_version }}"
+          title: "chore: bump version to ${{ steps.version-bump.outputs.new_version }}"
+          body: |
+            ## Version Bump
+            
+            This PR bumps the version to **${{ steps.version-bump.outputs.new_version }}**
+            
+            ### Changes
+            - Updated `package.json` version
+            - Updated `CHANGELOG.md`
+            
+            ### Type: ${{ steps.bump-type.outputs.bump_type }}
+            
+            **Note**: This is an automated PR. Please review and merge.
+          branch: version-bump-${{ steps.version-bump.outputs.new_version }}
+          delete-branch: true
+          labels: |
+            version-bump
+            automated 

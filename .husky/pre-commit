@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Pre-commit hook for version validation
+
+echo "🔍 Running pre-commit checks..."
+
+# Check if package.json version is valid
+if [ -f "package.json" ]; then
+  VERSION=$(node -p "require('./package.json').version")
+  if ! npx tsx scripts/version.ts validate "$VERSION" 2>/dev/null; then
+    echo "❌ Invalid version format in package.json: $VERSION"
+    echo "   Expected format: x.y.z (e.g., 1.0.0)"
+    exit 1
+  fi
+  echo "✅ Version format is valid: $VERSION"
+fi
+
+# Check commit message format (if available)
+if [ -n "$HUSKY_SKIP_HOOKS" ]; then
+  echo "⏭️  Skipping commit message validation (HUSKY_SKIP_HOOKS set)"
+  exit 0
+fi
+
+# Note: Full commit message validation would require a prepare-commit-msg hook
+# This is a basic check that can be enhanced later
+
+echo "✅ Pre-commit checks passed" 
