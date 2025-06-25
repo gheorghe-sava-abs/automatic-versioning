@@ -84,7 +84,7 @@ class VersionManager {
     ).map(commit => `- ${commit}`);
     
     // Build changelog entry
-    let entry = `\n## [${version}] - ${date}\n\n`;
+    let entry = `## [${version}] - ${date}\n\n`;
     entry += "### What's Changed\n\n";
     
     // Features section

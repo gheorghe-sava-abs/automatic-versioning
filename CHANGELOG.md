@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - d4f920a chore: bump version to 1.3.1
 
 
-## [v1.3.1] - 2025-06-25
+## [1.3.1] - 2025-06-25
 
 ### What's Changed
 
