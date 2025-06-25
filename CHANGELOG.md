@@ -12,6 +12,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+
+## [1.3.0] - 2025-06-25
+
+### What's Changed
+
+#### Features
+- 2e3e89a feat: improve release notes
+
+#### Bug Fixes
+- No bug fixes
+
+#### Other Changes
+- 6f5b84b chore: update release workflow to trigger on merged pull requests with 'version-bump' label
+- a3a2efb refactor: remove version comparison and info functionalities from VersionManager
+- 5c0f934 chore: bump version to 1.2.0
+- 11e29f5 Rename run-name
+- d49a2e8 chore: bump version to 1.1.0
+- 9415ee0 Implemented printLatestReleaseNotes in VersionManager
+- 96a650c chore: bump version to 1.0.2
+- 2108b28 chore: Add ID to create-release step in workflow
+- c7da7fc chore: Rename workflow
+- 9dc4bb0 chore: bump version to 1.0.1
+- d7ab13f Reset to version 1.0.0
+- 580fe26 Fix release workflow to prepend 'v' to version output and remove tag creation from version script
+- 73765f4 chore: bump version to 1.1.3
+- 2a6e96f Update release workflow to use current version for tagging
+- 52c8a94 chore: bump version to 1.1.2
+- 68ea497 Configure git to create release
+- ff13684 chore: bump version to 1.1.1
+
+
 ## [1.2.0] - 2025-06-25
 
 ### What's Changed
