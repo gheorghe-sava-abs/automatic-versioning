@@ -79,6 +79,7 @@ jobs:
             
             ### Changes
             - Updated `package.json` version
+            - Updated `CHANGELOG.md`
             
             ### Type: ${{ steps.bump-type.outputs.bump_type }}
             

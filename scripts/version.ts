@@ -278,7 +278,6 @@ try {
     case 'tag':
       const version = args[1] || versionManager.getCurrentVersion();
       versionManager.validateVersion(version);
-      versionManager.createTag(version);
       break;
       
     case 'validate':
