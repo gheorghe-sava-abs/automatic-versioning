@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Typography, Tooltip, Chip } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import packageJson from '../../../package.json';
 
 interface VersionInfoProps {
   variant?: 'text' | 'icon' | 'full' | 'detailed';
@@ -16,7 +17,7 @@ export const VersionInfo: React.FC<VersionInfoProps> = ({
   showBuildDate = true
 }) => {
   const appEnv = import.meta.env.VITE_APP_ENV || 'development';
-  const appVersion = import.meta.env.VITE_APP_VERSION || '1.0.0';
+  const appVersion = packageJson.version;
   const buildDate = import.meta.env.VITE_BUILD_DATE || new Date().toISOString().split('T')[0];
   
   // Format build date for display
