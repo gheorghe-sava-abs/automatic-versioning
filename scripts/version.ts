@@ -84,7 +84,7 @@ class VersionManager {
     ).map(commit => `- ${commit}`);
     
     // Build changelog entry
-    let entry = `\n## [v${version}] - ${date}\n\n`;
+    let entry = `\n## [${version}] - ${date}\n\n`;
     entry += "### What's Changed\n\n";
     
     // Features section
@@ -225,7 +225,7 @@ class VersionManager {
     
     // Find the version entry for the current version
     let startIndex = -1;
-    const versionPattern = new RegExp(`^## \\[v${version.replace(/\./g, '\\.')}\\]`);
+    const versionPattern = new RegExp(`^## \\[${version.replace(/\./g, '\\.')}\\]`);
     for (let i = 0; i < lines.length; i++) {
       if (lines[i].match(versionPattern)) {
         startIndex = i + 2;
@@ -241,7 +241,7 @@ class VersionManager {
     // Find the end of this release entry (next version or end of file)
     let endIndex = lines.length;
     for (let i = startIndex + 1; i < lines.length; i++) {
-      if (lines[i].match(/^## \[v[\d.]+\]/)) {
+      if (lines[i].match(/^## \[[\d.]+\]/)) {
         endIndex = i;
         break;
       }
@@ -264,8 +264,8 @@ if (args.length === 0) {
   console.log('  current                    Show current version');
   console.log('  bump [type]               Bump version (major|minor|patch)');
   console.log('  auto-bump                 Automatically determine and bump version');
-  console.log('  tag [version]             Create git tag for version');
-  console.log('  validate [version]        Validate version format');
+  console.log('  tag [ersion]             Create git tag for version');
+  console.log('  validate [ersion]        Validate version format');
   console.log('  notes                     Show latest release notes');
   process.exit(1);
 }
