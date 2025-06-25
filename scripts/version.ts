@@ -84,7 +84,7 @@ class VersionManager {
     ).map(commit => `- ${commit}`);
     
     // Build changelog entry
-    let entry = `\n## [${version}] - ${date}\n\n`;
+    let entry = `\n## [v${version}] - ${date}\n\n`;
     entry += "### What's Changed\n\n";
     
     // Features section
@@ -225,7 +225,7 @@ class VersionManager {
     
     // Find the version entry for the current version
     let startIndex = -1;
-    const versionPattern = new RegExp(`^## \\[${version.replace(/\./g, '\\.')}\\]`);
+    const versionPattern = new RegExp(`^## \\[v${version.replace(/\./g, '\\.')}\\]`);
     for (let i = 0; i < lines.length; i++) {
       if (lines[i].match(versionPattern)) {
         startIndex = i + 2;
@@ -241,7 +241,7 @@ class VersionManager {
     // Find the end of this release entry (next version or end of file)
     let endIndex = lines.length;
     for (let i = startIndex + 1; i < lines.length; i++) {
-      if (lines[i].match(/^## \[[\d.]+\]/)) {
+      if (lines[i].match(/^## \[v[\d.]+\]/)) {
         endIndex = i;
         break;
       }
