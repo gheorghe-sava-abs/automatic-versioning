@@ -30,6 +30,11 @@ jobs:
       - name: Build application
         run: npm run build
 
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
       - name: Generate from tag
         id: version
         run: |
