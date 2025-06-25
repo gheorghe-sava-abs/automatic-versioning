@@ -28,7 +28,7 @@ class VersionManager {
     this.packagePath = path.join(process.cwd(), 'package.json');
     this.changelogPath = path.join(process.cwd(), 'CHANGELOG.md');
   }
-
+  // Major change
   // Get current version from package.json
   getCurrentVersion(): string {
     const packageJson: PackageJson = JSON.parse(fs.readFileSync(this.packagePath, 'utf8'));
