@@ -1,5 +1,5 @@
 name: Create Release
-run-name: Create Release v${{ steps.version.outputs.version }}
+run-name: Create Release
 
 on:
   push:
@@ -36,10 +36,9 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
-      - name: Generate from tag
+      - name: Retrieve version tag
         id: version
         run: |
-          npm run version:tag
           VERSION=$(npm run version:current --silent)
           echo "version=v$VERSION" >> $GITHUB_OUTPUT
 
