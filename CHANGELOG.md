@@ -15,6 +15,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [2.0.1] - 2025-06-25
+
+### What's Changed
+
+#### Features
+- 6b8063b feat!: add comment indicating major change in version management
+
+#### Bug Fixes
+- d4d9834 fix!: update regex patterns for commit categorization in version management
+
+#### Other Changes
+- 7f6ff83 chore: bump version to 2.0.0
+
+
 ## [2.0.0] - 2025-06-25
 
 ### What's Changed
