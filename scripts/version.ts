@@ -189,7 +189,6 @@ class VersionManager {
 
     this.updateVersion(newVersion);
     this.generateChangelogEntry(newVersion, type);
-    this.createTag(newVersion);
     return newVersion;
   }
 
@@ -211,27 +210,6 @@ class VersionManager {
     }
   }
 
-  // Get version info for display
-  getVersionInfo(version: string): VersionInfo {
-    this.validateVersion(version);
-    return this.parseVersion(version);
-  }
-
-  // Compare two versions
-  compareVersions(version1: string, version2: string): number {
-    const v1 = this.parseVersion(version1);
-    const v2 = this.parseVersion(version2);
-
-    if (v1.major !== v2.major) return v1.major - v2.major;
-    if (v1.minor !== v2.minor) return v1.minor - v2.minor;
-    return v1.patch - v2.patch;
-  }
-
-  // Check if version is newer than current
-  isNewerVersion(version: string): boolean {
-    const currentVersion = this.getCurrentVersion();
-    return this.compareVersions(version, currentVersion) > 0;
-  }
 
   // Print notes for the latest release
   printLatestReleaseNotes(): void {
@@ -250,7 +228,7 @@ class VersionManager {
     const versionPattern = new RegExp(`^## \\[${version.replace(/\./g, '\\.')}\\]`);
     for (let i = 0; i < lines.length; i++) {
       if (lines[i].match(versionPattern)) {
-        startIndex = i;
+        startIndex = i + 2;
         break;
       }
     }
@@ -288,8 +266,6 @@ if (args.length === 0) {
   console.log('  auto-bump                 Automatically determine and bump version');
   console.log('  tag [version]             Create git tag for version');
   console.log('  validate [version]        Validate version format');
-  console.log('  info [version]            Show version information');
-  console.log('  compare [v1] [v2]         Compare two versions');
   console.log('  notes                     Show latest release notes');
   process.exit(1);
 }
@@ -320,6 +296,7 @@ try {
     case 'tag':
       const version = args[1] || versionManager.getCurrentVersion();
       versionManager.validateVersion(version);
+      versionManager.createTag(version);
       break;
       
     case 'validate':
@@ -329,31 +306,6 @@ try {
       }
       versionManager.validateVersion(versionToValidate);
       console.log(`✅ Version ${versionToValidate} is valid`);
-      break;
-
-    case 'info':
-      const versionForInfo = args[1] || versionManager.getCurrentVersion();
-      const info = versionManager.getVersionInfo(versionForInfo);
-      console.log(`Version: ${versionForInfo}`);
-      console.log(`Major: ${info.major}`);
-      console.log(`Minor: ${info.minor}`);
-      console.log(`Patch: ${info.patch}`);
-      break;
-
-    case 'compare':
-      const v1 = args[1];
-      const v2 = args[2];
-      if (!v1 || !v2) {
-        throw new Error('Two versions are required for comparison');
-      }
-      const comparison = versionManager.compareVersions(v1, v2);
-      if (comparison > 0) {
-        console.log(`${v1} is newer than ${v2}`);
-      } else if (comparison < 0) {
-        console.log(`${v1} is older than ${v2}`);
-      } else {
-        console.log(`${v1} and ${v2} are the same`);
-      }
       break;
       
     case 'notes':

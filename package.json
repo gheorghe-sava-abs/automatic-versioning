@@ -21,8 +21,6 @@
     "version:auto-bump": "npx tsx scripts/version.ts auto-bump",
     "version:tag": "npx tsx scripts/version.ts tag",
     "version:validate": "npx tsx scripts/version.ts validate",
-    "version:info": "npx tsx scripts/version.ts info",
-    "version:compare": "npx tsx scripts/version.ts compare",
     "version:notes": "npx tsx scripts/version.ts notes",
     "version:patch": "npm run version:bump patch",
     "version:minor": "npm run version:bump minor",
