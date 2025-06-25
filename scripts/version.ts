@@ -72,15 +72,15 @@ class VersionManager {
     
     // Categorize commits
     const features = commits.filter(commit => 
-      commit.match(/(feat|feature):/i)
+      commit.match(/(feat|feature)[!]?:/i)
     ).map(commit => `- ${commit}`);
     
     const bugFixes = commits.filter(commit => 
-      commit.match(/(fix|bugfix):/i)
+      commit.match(/(fix|bugfix)[!]?:/i)
     ).map(commit => `- ${commit}`);
     
     const otherChanges = commits.filter(commit => 
-      !commit.match(/(feat|feature|fix|bugfix):/i)
+      !commit.match(/(feat|feature|fix|bugfix)[!]?:/i)
     ).map(commit => `- ${commit}`);
     
     // Build changelog entry
