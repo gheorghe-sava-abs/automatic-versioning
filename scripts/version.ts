@@ -232,6 +232,47 @@ class VersionManager {
     const currentVersion = this.getCurrentVersion();
     return this.compareVersions(version, currentVersion) > 0;
   }
+
+  // Print notes for the latest release
+  printLatestReleaseNotes(): void {
+    if (!fs.existsSync(this.changelogPath)) {
+      console.log('❌ No CHANGELOG.md file found');
+      return;
+    }
+
+    var version = this.getCurrentVersion();
+
+    const changelog = fs.readFileSync(this.changelogPath, 'utf8');
+    const lines = changelog.split('\n');
+    
+    // Find the version entry for the current version
+    let startIndex = -1;
+    const versionPattern = new RegExp(`^## \\[${version.replace(/\./g, '\\.')}\\]`);
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i].match(versionPattern)) {
+        startIndex = i;
+        break;
+      }
+    }
+    
+    if (startIndex === -1) {
+      console.log(`❌ No release notes found for version ${version}`);
+      return;
+    }
+    
+    // Find the end of this release entry (next version or end of file)
+    let endIndex = lines.length;
+    for (let i = startIndex + 1; i < lines.length; i++) {
+      if (lines[i].match(/^## \[[\d.]+\]/)) {
+        endIndex = i;
+        break;
+      }
+    }
+    
+    // Extract and print the release notes
+    const releaseNotes = lines.slice(startIndex, endIndex).join('\n');
+    console.log(releaseNotes);
+  }
 }
 
 // CLI interface
@@ -249,6 +290,7 @@ if (args.length === 0) {
   console.log('  validate [version]        Validate version format');
   console.log('  info [version]            Show version information');
   console.log('  compare [v1] [v2]         Compare two versions');
+  console.log('  notes                     Show latest release notes');
   process.exit(1);
 }
 
@@ -312,6 +354,10 @@ try {
       } else {
         console.log(`${v1} and ${v2} are the same`);
       }
+      break;
+      
+    case 'notes':
+      versionManager.printLatestReleaseNotes();
       break;
       
     default:

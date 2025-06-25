@@ -1,4 +1,5 @@
 name: Create Release
+run-name: Create Release v${{ steps.version.outputs.version }}
 
 on:
   push:
@@ -80,13 +81,3 @@ jobs:
           body: ${{ steps.release-notes.outputs.notes }}
           draft: false
           prerelease: false
-
-      - name: Upload build artifacts
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ./dist
-          asset_name: nc-web-ui-${{ steps.version.outputs.version }}.zip
-          asset_content_type: application/zip 
