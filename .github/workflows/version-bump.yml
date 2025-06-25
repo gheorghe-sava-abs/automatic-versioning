@@ -84,7 +84,7 @@ jobs:
             ### Type: ${{ steps.bump-type.outputs.bump_type }}
             
             **Note**: This is an automated PR. Please review and merge.
-          branch: version-bump-${{ steps.version-bump.outputs.new_version }}
+          branch: version-bump/v${{ steps.version-bump.outputs.new_version }}
           delete-branch: true
           labels: |
             version-bump
