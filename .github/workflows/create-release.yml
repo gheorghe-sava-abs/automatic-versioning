@@ -2,9 +2,8 @@ name: Create Release
 run-name: Create Release
 
 on:
-  push:
-    branches:
-      - release/current
+  pull_request:
+    types: [closed]
 
 permissions:
   contents: write
@@ -12,6 +11,7 @@ permissions:
 jobs:
   create-release:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'version-bump')
     
     steps:
       - name: Checkout code
