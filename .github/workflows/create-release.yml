@@ -46,25 +46,7 @@ jobs:
       - name: Generate release notes
         id: release-notes
         run: |
-          # Get commits since last tag
-          PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD~1 2>/dev/null || echo "")
-          
-          if [ -z "$PREVIOUS_TAG" ]; then
-            # First release, get all commits
-            COMMITS=$(git log --oneline --no-merges)
-          else
-            # Get commits since previous tag
-            COMMITS=$(git log --oneline --no-merges ${PREVIOUS_TAG}..HEAD)
-          fi
-          
-          # Format release notes
-          NOTES="## What's Changed\n\n"
-          NOTES+="### Features\n"
-          NOTES+=$(echo "$COMMITS" | grep -E "(feat|feature):" | sed 's/^/- /' || echo "- No new features")
-          NOTES+="\n\n### Bug Fixes\n"
-          NOTES+=$(echo "$COMMITS" | grep -E "(fix|bugfix):" | sed 's/^/- /' || echo "- No bug fixes")
-          NOTES+="\n\n### Other Changes\n"
-          NOTES+=$(echo "$COMMITS" | grep -v -E "(feat|feature|fix|bugfix):" | sed 's/^/- /' || echo "- No other changes")
+          NOTES=$(npm run version:notes --silent)
           
           echo "notes<<EOF" >> $GITHUB_OUTPUT
           echo "$NOTES" >> $GITHUB_OUTPUT
