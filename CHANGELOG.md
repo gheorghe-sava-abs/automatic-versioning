@@ -15,6 +15,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [1.3.3] - 2025-06-25
+
+### What's Changed
+
+#### Features
+- No new features
+
+#### Bug Fixes
+- 25aa4eb fix: remove 'v' prefix from version number in changelog entry formatting
+
+#### Other Changes
+- No other changes
+
+
 ## [1.3.2] - 2025-06-25
 
 ### What's Changed
