@@ -8,6 +8,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+
+## [1.1.4] - 2025-06-25
+
+### What's Changed
+
+#### Features
+- No new features
+
+#### Bug Fixes
+- No bug fixes
+
+#### Other Changes
+- 580fe26 Fix release workflow to prepend 'v' to version output and remove tag creation from version script
+- 73765f4 chore: bump version to 1.1.3
+- 2a6e96f Update release workflow to use current version for tagging
+- 52c8a94 chore: bump version to 1.1.2
+- 68ea497 Configure git to create release
+- ff13684 chore: bump version to 1.1.1
+
+
 ## [1.1.3] - 2025-06-25
 
 ### What's Changed
