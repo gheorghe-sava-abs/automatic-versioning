@@ -15,6 +15,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [3.0.0] - 2025-06-25
+
+### What's Changed
+
+#### Features
+- 5fc90b6 feat!: use version from package.json instead of environment variable
+
+#### Bug Fixes
+- No bug fixes
+
+#### Other Changes
+- No other changes
+
+
 ## [2.0.1] - 2025-06-25
 
 ### What's Changed
