@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.1] - 2025-06-26
+
+### What's Changed
+
+#### Features
+- No new features
+
+#### Bug Fixes
+- No bug fixes
+
+#### Other Changes
+- ae2cc80 Fix husky version validation
+- 56c7bff Dispatch a create release workflow on demand
+- bbb530e chore: remove whitespace
+
+
 ## [4.0.0] - 2025-06-25
 
 ### What's Changed
