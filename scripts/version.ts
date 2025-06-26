@@ -7,7 +7,6 @@ import { execSync } from 'child_process';
 // Types and interfaces
 interface PackageJson {
   version: string;
-  [key: string]: any;
 }
 
 type VersionType = 'major' | 'minor' | 'patch';
@@ -55,7 +54,7 @@ class VersionManager {
   }
 
   // Generate changelog entry
-  generateChangelogEntry(version: string, type: string): void {
+  generateChangelogEntry(version: string): void {
     const date = new Date().toISOString().split('T')[0];
     
     // Get commits since last tag
@@ -66,6 +65,7 @@ class VersionManager {
       commits = commitOutput.split('\n').filter(line => line.trim());
     } catch (error) {
       // No previous tag found, get all commits
+      console.log(`No previous tag found: ${error instanceof Error ? error.message : 'Unknown error'}`);
       const commitOutput = execSync('git log --oneline --no-merges', { encoding: 'utf8' });
       commits = commitOutput.split('\n').filter(line => line.trim());
     }
@@ -139,6 +139,7 @@ class VersionManager {
       return commits.split('\n').filter(line => line.trim());
     } catch (error) {
       // No tags found, get all commits
+      console.log(`No tags found: ${error instanceof Error ? error.message : 'Unknown error'}`);
       const commits = execSync('git log --oneline', { encoding: 'utf8' });
       return commits.split('\n').filter(line => line.trim());
     }
@@ -188,7 +189,7 @@ class VersionManager {
     }
 
     this.updateVersion(newVersion);
-    this.generateChangelogEntry(newVersion, type);
+    this.generateChangelogEntry(newVersion);
     return newVersion;
   }
 
@@ -218,7 +219,7 @@ class VersionManager {
       return;
     }
 
-    var version = this.getCurrentVersion();
+    const version = this.getCurrentVersion();
 
     const changelog = fs.readFileSync(this.changelogPath, 'utf8');
     const lines = changelog.split('\n');
@@ -274,11 +275,12 @@ const command = args[0];
 
 try {
   switch (command) {
-    case 'current':
+    case 'current': {
       console.log(versionManager.getCurrentVersion());
       break;
-      
-    case 'bump':
+    }
+
+    case 'bump': {
       const type = (args[1] || 'patch') as VersionType;
       if (!['major', 'minor', 'patch'].includes(type)) {
         throw new Error(`Invalid version type: ${type}. Must be major, minor, or patch`);
@@ -286,20 +288,23 @@ try {
       const newVersion = versionManager.bumpVersion(type);
       console.log(`✅ Bumped version to ${newVersion}`);
       break;
-      
-    case 'auto-bump':
+    }
+
+    case 'auto-bump': {
       const bumpType = versionManager.determineBumpType();
       const autoVersion = versionManager.bumpVersion(bumpType);
       console.log(`✅ Auto-bumped version to ${autoVersion} (${bumpType})`);
       break;
-      
-    case 'tag':
+    }
+
+    case 'tag': {
       const version = args[1] || versionManager.getCurrentVersion();
       versionManager.validateVersion(version);
       versionManager.createTag(version);
       break;
-      
-    case 'validate':
+    }
+
+    case 'validate': {
       const versionToValidate = args[1];
       if (!versionToValidate) {
         throw new Error('Version to validate is required');
@@ -307,11 +312,13 @@ try {
       versionManager.validateVersion(versionToValidate);
       console.log(`✅ Version ${versionToValidate} is valid`);
       break;
-      
-    case 'notes':
+    }
+
+    case 'notes': {
       versionManager.printLatestReleaseNotes();
       break;
-      
+    }
+
     default:
       console.error(`Unknown command: ${command}`);
       process.exit(1);
