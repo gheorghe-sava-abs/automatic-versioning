@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.0.0] - 2025-06-27
+
+### What's Changed
+
+#### Features
+- 85b92ef feat: minor change
+
+#### Bug Fixes
+- e5d0df7 fix!: major change
+
+#### Other Changes
+- f0ff498 chore: bump version to 4.1.0
+
+
 ## [4.1.0] - 2025-06-27
 
 ### What's Changed
