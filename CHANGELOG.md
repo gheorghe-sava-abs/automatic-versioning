@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.0.0] - 2025-06-27
+
+### What's Changed
+
+#### Features
+- 85b92ef Major change in the GraphQL API
+
+#### Bug Fixes
+
+#### Other Changes
+
+
 ## [4.1.0] - 2025-06-27
 
 ### What's Changed
