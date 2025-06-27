@@ -10,13 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### What's Changed
 
 #### Features
-- 85b92ef feat: minor change
+- 85b92ef Major change in the GraphQL API
 
 #### Bug Fixes
-- e5d0df7 fix!: major change
 
 #### Other Changes
-- f0ff498 chore: bump version to 4.1.0
 
 
 ## [4.1.0] - 2025-06-27
