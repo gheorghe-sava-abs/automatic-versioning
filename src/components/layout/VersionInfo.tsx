@@ -7,7 +7,7 @@ interface VersionInfoProps {
   showEnvironment?: boolean;
   showBuildDate?: boolean;
 }
-
+// Minor change
 export const VersionInfo: React.FC<VersionInfoProps> = ({ 
   variant = 'detailed',
   color = 'text.secondary',
